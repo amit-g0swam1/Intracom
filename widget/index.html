@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake Customer Website</title>
+    <!-- Simulating terrible global CSS that would normally break a widget -->
+    <style>
+      body {
+        margin: 0;
+        padding: 50px;
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        background-color: #fdf2f8;
+      }
+      div {
+        border: 5px solid limegreen !important;
+        padding: 20px;
+        margin: 20px 0;
+      }
+      button {
+        display: none !important; /* This would hide our widget button if not for Shadow DOM */
+      }
+      p {
+        font-size: 30px;
+        color: brightpink;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Simulating host site content -->
+    <div>
+      <h1>Welcome to the Host Site!</h1>
+      <p>This page has extreme global CSS rules (e.g. all buttons are display:none, all divs have green borders).</p>
+      <p>The Intracom widget should ignore all of these styles because it lives inside a Shadow DOM.</p>
+    </div>
+
+    <!-- Inject our widget in Dev Mode -->
+    <script type="module" src="/src/loader.tsx" data-app-id="test-client-123"></script>
+    
+    <!-- Once built, the customer uses this tag instead: -->
+    <!-- <script src="https://cdn.intracom.com/widget.js" data-app-id="test-client-123"></script> -->
+  </body>
+</html>
