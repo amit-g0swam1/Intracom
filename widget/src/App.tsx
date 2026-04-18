@@ -1,4 +1,4 @@
-import { useEffect } from 'preact/hooks'
+import { useEffect, useState, useRef } from 'preact/hooks'
 import { useWidgetStore } from './store/useWidgetStore'
 
 interface AppProps {
@@ -6,7 +6,30 @@ interface AppProps {
 }
 
 export function App({ appId }: AppProps) {
-  const { isOpen, toggleWidget, unreadCount } = useWidgetStore()
+  const { 
+    isOpen, 
+    toggleWidget, 
+    unreadCount, 
+    messages, 
+    sendMessage, 
+    initChat, 
+    isConnected 
+  } = useWidgetStore()
+  
+  const [inputText, setInputText] = useState('')
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Initialize socket connection on mount
+    initChat()
+  }, [])
+
+  useEffect(() => {
+    // Scroll to bottom when messages change
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages, isOpen])
 
   // Listen to custom events dispatched via the window.Intracom API
   useEffect(() => {
@@ -29,21 +52,46 @@ export function App({ appId }: AppProps) {
     }
   }, [])
 
+  const handleSubmit = (e: Event) => {
+    e.preventDefault()
+    if (inputText.trim()) {
+      sendMessage(inputText.trim())
+      setInputText('')
+    }
+  }
+
   return (
     <div class="intracom-container">
       {isOpen && (
         <div class="intracom-window">
           <div class="intracom-header">
-            <h3>Intracom ({appId})</h3>
+            <div class="title-container">
+              <span class={`status-dot ${isConnected ? 'connected' : 'disconnected'}`}></span>
+              <h3>Intracom ({appId})</h3>
+            </div>
             <button class="close-btn" onClick={toggleWidget}>&times;</button>
           </div>
           <div class="intracom-messages">
-            <p>Welcome! How can we help you today?</p>
+            {messages.length === 0 ? (
+               <p class="welcome-text">Welcome! How can we help you today?</p>
+            ) : (
+               messages.map(msg => (
+                 <div key={msg.id} class={`message ${msg.isAdmin ? 'admin' : 'user'}`}>
+                   <span class="message-text">{msg.text}</span>
+                 </div>
+               ))
+            )}
+            <div ref={messagesEndRef} />
           </div>
-          <div class="intracom-input">
-            <input type="text" placeholder="Send a message..." />
-            <button>&rarr;</button>
-          </div>
+          <form class="intracom-input" onSubmit={handleSubmit}>
+            <input 
+              type="text" 
+              placeholder="Send a message..." 
+              value={inputText}
+              onInput={(e) => setInputText((e.target as HTMLInputElement).value)}
+            />
+            <button type="submit" disabled={!isConnected || !inputText.trim()}>&rarr;</button>
+          </form>
         </div>
       )}
       

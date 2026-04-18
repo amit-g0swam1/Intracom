@@ -11,26 +11,26 @@ This is the exact, step-by-step roadmap to achieve the architecture goals. It is
 - [x] **Initialize Widget:** Setup Preact + TS + Vite (Library Mode).
 - [x] **State Management:** Implement Zustand for lightweight state (`useWidgetStore`).
 - [x] **Isolation:** Create `loader.tsx` to render the widget inside a Shadow DOM to protect CSS.
-- [ ] **Real-Time Integration:** Add `socket.io-client` so the widget can talk to the NestJS backend.
+- [x] **Real-Time Integration:** Add `socket.io-client` so the widget can talk to the NestJS backend.
 - [x] **Publish:** Deploy `widget.js` to Cloudflare Pages (CDN).
 
 ### 2. The Backend Core (Monolith)
-- [ ] **Init Server:** Create a NestJS application (`npx @nestjs/cli new backend`).
-- [ ] **Database Setup:** Install Prisma and connect it to PostgreSQL.
-- [ ] **Schema Design:** Create `User`, `Conversation`, and `Message` tables in `schema.prisma` (Use `JSONB` for flexible data like custom user attributes).
-- [ ] **REST APIs:** Build basic CRUD endpoints for users and conversations.
-- [ ] **WebSockets Gateway:** Install `@nestjs/platform-socket.io` and create `ChatGateway` to handle real-time `sendMessage` events.
+- [x] **Init Server:** Create a NestJS application (`npx @nestjs/cli new backend`).
+- [x] **Database Setup:** Install Prisma and connect it to PostgreSQL.
+- [x] **Schema Design:** Create `User`, `Conversation`, and `Message` tables in `schema.prisma` (Use `JSONB` for flexible data like custom user attributes).
+- [x] **REST APIs:** Build basic CRUD endpoints for users and conversations.
+- [x] **WebSockets Gateway:** Install `@nestjs/platform-socket.io` and create `ChatGateway` to handle real-time `sendMessage` events.
 
 ### 3. The Admin Dashboard
-- [ ] **Init Web App:** Setup Next.js (App Router) + Tailwind CSS.
-- [ ] **UI Integration:** Import and configure your internal `frontend-library` package.
-- [ ] **Dashboard Layout:** Build the Chat Interface, User List, and Settings pages.
-- [ ] **Real-Time Integration:** Use `socket.io-client` in a global React Context to listen for incoming messages from the NestJS Gateway.
+- [x] **Init Web App:** Setup Next.js (App Router) + Tailwind CSS.
+- [x] **UI Integration:** Import and configure your internal `frontend-library` package.
+- [x] **Dashboard Layout:** Build the Chat Interface, User List, and Settings pages.
+- [x] **Real-Time Integration:** Use `socket.io-client` in a global React Context to listen for incoming messages from the NestJS Gateway.
 - [ ] **Analytics:** Implement `Recharts` for visualizing active conversations and load times.
 
 ### 4. Caching & Background Jobs
-- [ ] **Cache Server:** Spin up a fast Redis instance (via Docker locally or upstash.com).
-- [ ] **Pub/Sub Adapter:** Configure NestJS Socket.IO to use the Redis adapter (crucial if you run multiple node instances later).
+- [x] **Cache Server:** Spin up a fast Redis instance (via Docker locally or upstash.com).
+- [x] **Pub/Sub Adapter:** Configure NestJS Socket.IO to use the Redis adapter (crucial if you run multiple node instances later).
 - [ ] **Job Queue:** Install `BullMQ` to handle async tasks (like sending "New Message" email notifications so the main thread doesn't lag).
 
 ### 5. Phase 1 DevOps Pipeline
