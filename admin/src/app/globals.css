@@ -1,15 +1,25 @@
 @import "tailwindcss";
-@source "../../../frontend-library";
+@import "../../../frontend-library/src/theme/tokens.css";
+@source "../../../frontend-library/src";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', var(--font-geist-sans), ui-sans-serif, system-ui;
+  --color-primary: var(--sp-color-primary-500);
+  --color-primary-hover: var(--sp-color-primary-600);
+  --color-border: var(--sp-border-base);
+  --color-background: var(--sp-bg-base);
+  --color-foreground: var(--sp-text-base);
+}
+
+@layer base {
+  body {
+    @apply antialiased text-foreground bg-background;
+    font-family: var(--font-sans);
+  }
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #f9fafb;
+  background-color: var(--sp-bg-surface);
 }
